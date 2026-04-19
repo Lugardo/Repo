@@ -469,6 +469,146 @@
       text-align: center;
       font-size: 12px;
     }
+
+    /* ================================================== */
+    /* =============== RESPONSIVE LAYOUT ================ */
+    /* ================================================== */
+
+    /* ----- Tablet: 720px – 1023px ----- */
+    @media (max-width: 1023px) {
+      .container { padding: 0 16px; }
+
+      /* Stack the 3-col grid: featured first (main story), then
+         left stories row, then ad at bottom */
+      .three-col {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .three-col .featured { order: 1; }
+      .three-col .left-col { order: 2; }
+      .three-col .ad-col   { order: 3; }
+
+      /* Featured: cap heading size + image aspect on tablet */
+      .featured .media { aspect-ratio: 16 / 10; }
+      .featured h1 { font-size: clamp(24px, 3.4vw, 34px); max-width: 720px; }
+      .featured .excerpt { max-width: 640px; }
+
+      /* Left stories row as 2-column grid, side-by-side */
+      .left-col {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px 28px;
+      }
+      .left-col .story {
+        padding: 0 0 22px;
+        border-bottom: 1px solid var(--line);
+      }
+      .left-col .story:nth-last-child(-n+2) { border-bottom: 1px solid var(--line); }
+
+      /* Ad column becomes a centered wide banner on tablet */
+      .ad-col .ad-slot {
+        max-width: 728px;
+        margin: 0 auto;
+        aspect-ratio: 728 / 180;
+      }
+
+      /* Below-the-fold cards: keep 3-col */
+      .cards { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ----- Small tablet / large phone: 600px – 767px ----- */
+    @media (max-width: 767px) {
+      nav.primary ul {
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      nav.primary ul::-webkit-scrollbar { display: none; }
+      nav.primary li a {
+        padding: 14px 16px;
+        font-size: 16px;
+        white-space: nowrap;
+      }
+
+      .left-col { grid-template-columns: 1fr; gap: 0; }
+      .left-col .story { padding: 18px 0 22px; }
+      .left-col .story:first-child { padding-top: 4px; }
+
+      .cards { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    }
+
+    /* ----- Phone: <600px ----- */
+    @media (max-width: 599px) {
+      .topbar { font-size: 12px; }
+      .topbar .row { gap: 8px; height: 32px; }
+      .topbar .ediciones { gap: 6px; }
+
+      .masthead { padding: 12px 0; }
+      .masthead .row { gap: 8px; }
+
+      /* Shrink logo and tighten spacing */
+      .logo { gap: 8px; }
+      .logo .flame { width: 28px; height: 32px; }
+      .logo .word { font-size: 26px; }
+      .logo .sub { font-size: 10px; letter-spacing: 0.2em; }
+
+      /* Pill buttons: icon-only */
+      .pill-btn {
+        padding: 0;
+        width: 40px;
+        height: 40px;
+        justify-content: center;
+        gap: 0;
+        font-size: 0;
+      }
+      .pill-btn svg { width: 18px; height: 18px; }
+
+      /* Ticker: tighter */
+      .ticker .row { height: 36px; }
+      .ticker .label { font-size: 12px; padding-right: 10px; padding-left: 2px; }
+      .ticker .item { padding: 0 12px; font-size: 12px; }
+      .ticker .item b { font-size: 12px; }
+      .ticker .pause { width: 28px; height: 28px; margin-left: 4px; }
+
+      main { padding: 20px 0 32px; }
+
+      /* Featured tightened on phone */
+      .featured .media { aspect-ratio: 16 / 11; }
+      .featured .cat { margin-top: 20px; }
+      .featured h1 { font-size: clamp(22px, 6vw, 28px); margin: 8px auto 14px; }
+      .featured .excerpt { font-size: 14px; }
+
+      /* Left stories: smaller thumb */
+      .left-col .story .body { grid-template-columns: 1fr 88px; gap: 12px; }
+      .left-col .story .thumb-wrap { width: 88px; height: 68px; }
+      .left-col .story .text-wrap h3 { font-size: 17px; }
+      .left-col .story .text-wrap p { font-size: 13px; -webkit-line-clamp: 3; }
+
+      /* Ad: keep as mobile banner */
+      .ad-col .ad-slot { aspect-ratio: 320 / 100; max-width: 100%; }
+
+      /* Section headers + cards */
+      .section-header { margin: 32px 0 14px; }
+      .section-header h2 { font-size: 18px; }
+      .cards { grid-template-columns: 1fr; gap: 20px; }
+      .card .thumb { aspect-ratio: 16 / 10; }
+
+      /* Footer */
+      footer { padding: 28px 0 20px; }
+      footer .foot-grid { grid-template-columns: 1fr 1fr; gap: 22px; }
+      footer .brand { font-size: 20px; }
+    }
+
+    /* ----- Very small phone: <380px ----- */
+    @media (max-width: 379px) {
+      .container { padding: 0 12px; }
+      .logo .word { font-size: 22px; }
+      .logo .flame { width: 24px; height: 28px; }
+      .pill-btn { width: 36px; height: 36px; }
+      .topbar .ediciones .label { display: none; }
+    }
   </style>
 </head>
 <body>
