@@ -3,170 +3,659 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>En mantenimiento</title>
+  <title>El Melache (by Lugardo) | Noticias de Sinaloa</title>
+  <meta name="description" content="El Melache: Noticias de Sinaloa, Culiacán, Mazatlán, Los Mochis, Guasave y Guamúchil." />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body {
-      height: 100%;
-      overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      color: #ffffff;
+    :root {
+      --brand: #d10a11;
+      --brand-dark: #a80000;
+      --ink: #111;
+      --ink-soft: #333;
+      --muted: #6b6b6b;
+      --line: #e5e5e5;
+      --bg: #ffffff;
+      --bg-alt: #f6f6f6;
+      --link: #0a4d8c;
+      --font-sans: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
+      --font-serif: Georgia, "Times New Roman", serif;
     }
 
-    body {
-      position: relative;
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      line-height: 1.35;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: var(--brand); }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* Top utility bar */
+    .topbar {
+      background: #111;
+      color: #fff;
+      font-size: 12px;
+    }
+    .topbar .container {
       display: flex;
       align-items: center;
-      justify-content: center;
-      background: linear-gradient(130deg, #031b10 0%, #052e1c 20%, #166534 45%, #16a34a 70%, #22c55e 100%);
-      background-size: 300% 300%;
-      animation: gradientShift 14s ease-in-out infinite;
+      justify-content: space-between;
+      height: 34px;
     }
+    .topbar .editions a {
+      margin-right: 14px;
+      color: #ddd;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .topbar .editions a.active { color: #fff; font-weight: 700; border-bottom: 2px solid var(--brand); padding-bottom: 2px; }
+    .topbar .date { color: #bbb; }
 
-    @keyframes gradientShift {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    /* Masthead */
+    .masthead {
+      border-bottom: 1px solid var(--line);
+      padding: 18px 0 16px;
     }
+    .masthead .row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+    }
+    .masthead .left, .masthead .right { display: flex; align-items: center; gap: 14px; }
+    .masthead .right { justify-content: flex-end; }
 
-    /* Floating blurred particles for depth */
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.55;
-      pointer-events: none;
-      will-change: transform;
-    }
-    .blob.b1 { width: 420px; height: 420px; background: #4ade80; top: -120px; left: -120px; animation: drift1 18s ease-in-out infinite; }
-    .blob.b2 { width: 360px; height: 360px; background: #2dd4bf; bottom: -140px; right: -100px; animation: drift2 22s ease-in-out infinite; }
-    .blob.b3 { width: 280px; height: 280px; background: #a3e635; top: 40%; right: 15%; animation: drift3 26s ease-in-out infinite; }
-
-    @keyframes drift1 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50%      { transform: translate(80px, 60px) scale(1.15); }
-    }
-    @keyframes drift2 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50%      { transform: translate(-100px, -70px) scale(1.1); }
-    }
-    @keyframes drift3 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50%      { transform: translate(-60px, 90px) scale(0.9); }
-    }
-
-    main {
-      position: relative;
-      z-index: 1;
+    .logo {
       text-align: center;
-      padding: 2rem;
-      max-width: 1100px;
+      line-height: 1;
     }
-
-    .gear {
-      width: clamp(90px, 14vw, 160px);
-      height: auto;
-      margin: 0 auto 1.5rem;
-      display: block;
-      filter: drop-shadow(0 0 24px rgba(74, 222, 128, 0.85));
-      animation: spin 9s linear infinite;
-    }
-
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
-    h1 {
-      font-size: clamp(2.25rem, 8vw, 6rem);
+    .logo .mark {
+      font-family: var(--font-serif);
       font-weight: 900;
+      font-style: italic;
+      font-size: clamp(34px, 5.5vw, 62px);
+      letter-spacing: -0.01em;
+      color: var(--brand);
+    }
+    .logo .sub {
+      margin-top: 6px;
+      font-size: 12px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 12px;
+      gap: 8px;
+      background: #fafafa;
+    }
+    .search input {
+      border: 0;
+      outline: 0;
+      background: transparent;
+      font-size: 13px;
+      width: 180px;
+    }
+    .search svg { width: 14px; height: 14px; fill: #777; }
+
+    .btn {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+    .btn.primary { background: var(--brand); color: #fff; border-color: var(--brand); }
+
+    /* Main navigation */
+    nav.primary {
+      border-top: 1px solid var(--line);
+      border-bottom: 2px solid var(--brand);
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    nav.primary ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+    nav.primary li a {
+      display: block;
+      padding: 14px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    nav.primary li a:hover { color: var(--brand); }
+    nav.primary li.active a { color: var(--brand); }
+
+    /* Main grid */
+    main { padding: 22px 0 40px; }
+    .grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 28px;
+    }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    /* Featured article */
+    .featured {
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+      background: #000;
+    }
+    .featured .media {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      background: #0b0b0b;
+      overflow: hidden;
+    }
+    .featured .media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .featured .overlay {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 22px 22px 24px;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 10%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0) 100%);
+      color: #fff;
+    }
+    .tag {
+      display: inline-block;
+      background: var(--brand);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      margin-bottom: 10px;
+    }
+    .featured h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(22px, 3.2vw, 38px);
+      line-height: 1.15;
+      font-weight: 800;
+      color: #fff;
+      max-width: 780px;
+    }
+    .featured .byline {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #ddd;
+      letter-spacing: 0.03em;
+    }
+
+    /* Featured fallback (when image is missing) */
+    .featured .media.fallback {
+      background:
+        radial-gradient(1200px 600px at 20% 30%, #ff7a1a 0%, #b33000 35%, #3a0d00 70%, #1a0600 100%),
+        linear-gradient(180deg, #1a0600 0%, #000 100%);
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+    }
+    .featured .media.fallback::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(300px 220px at 70% 55%, rgba(255,255,255,0.08) 0%, transparent 70%),
+        radial-gradient(500px 300px at 15% 15%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 80%);
+      mix-blend-mode: screen;
+    }
+
+    /* Secondary stories list (right column) */
+    aside .side-title {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 800;
+      border-bottom: 2px solid var(--brand);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .side-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .side-list li { display: grid; grid-template-columns: 84px 1fr; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+    .side-list li:last-child { border-bottom: 0; }
+    .side-list .thumb {
+      width: 84px;
+      height: 64px;
+      background: #eee;
+      border-radius: 3px;
+      background-size: cover;
+      background-position: center;
+    }
+    .side-list h3 {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .side-list .meta { margin-top: 6px; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* Section title */
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 36px 0 18px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--brand);
+    }
+    .section-title h2 {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .section-title a { font-size: 12px; color: var(--brand); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+
+    /* Cards grid */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 1000px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 720px)  { .cards { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px)  { .cards { grid-template-columns: 1fr; } }
+
+    .card .thumb {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: #eee;
+      border-radius: 3px;
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 10px;
+    }
+    .card .cat {
+      font-size: 11px;
+      color: var(--brand);
+      font-weight: 800;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      line-height: 1.05;
-      background: linear-gradient(90deg, #ffffff 0%, #bbf7d0 45%, #ffffff 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 40px rgba(134, 239, 172, 0.35);
-      animation: pulse 2.8s ease-in-out infinite;
     }
+    .card h3 {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      line-height: 1.25;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+    .card .meta { margin-top: 6px; font-size: 11px; color: var(--muted); }
 
-    @keyframes pulse {
-      0%, 100% { filter: drop-shadow(0 0 12px rgba(187, 247, 208, 0.55)); transform: scale(1); }
-      50%      { filter: drop-shadow(0 0 32px rgba(134, 239, 172, 0.95)); transform: scale(1.015); }
-    }
-
-    .subtitle {
-      margin-top: 1.25rem;
-      font-size: clamp(1rem, 2.2vw, 1.5rem);
-      font-weight: 400;
-      color: #dcfce7;
-      letter-spacing: 0.04em;
-      opacity: 0.95;
-    }
-
-    .dots {
-      display: inline-block;
-      width: 1.5em;
-      text-align: left;
-    }
-    .dots span {
-      opacity: 0;
-      animation: dotFade 1.6s infinite;
-    }
-    .dots span:nth-child(2) { animation-delay: 0.25s; }
-    .dots span:nth-child(3) { animation-delay: 0.5s; }
-
-    @keyframes dotFade {
-      0%, 80%, 100% { opacity: 0; }
-      40%           { opacity: 1; }
-    }
-
-    .badge {
-      display: inline-block;
-      margin-top: 2rem;
-      padding: 0.6rem 1.4rem;
-      border: 1px solid rgba(187, 247, 208, 0.5);
-      border-radius: 999px;
-      font-size: clamp(0.8rem, 1.6vw, 1rem);
-      letter-spacing: 0.2em;
+    /* Ad slot */
+    .ad {
+      margin: 24px auto;
+      background: #f1f1f1;
+      color: #999;
+      text-align: center;
+      padding: 18px;
+      font-size: 11px;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: #ecfccb;
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(6px);
+      border: 1px dashed #ddd;
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation: none !important;
-        transition: none !important;
-      }
+    /* Opinion strip */
+    .opinion {
+      background: var(--bg-alt);
+      padding: 22px;
+      border-radius: 4px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 720px) { .opinion { grid-template-columns: 1fr; } }
+    .opinion .col h4 { font-family: var(--font-serif); font-size: 16px; margin-bottom: 6px; }
+    .opinion .col .author { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      background: #111;
+      color: #bbb;
+      padding: 30px 0 24px;
+      font-size: 13px;
+    }
+    footer .foot-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 720px) { footer .foot-grid { grid-template-columns: 1fr 1fr; } }
+    footer h5 {
+      color: #fff;
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    footer ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    footer a:hover { color: #fff; }
+    .copy {
+      margin-top: 24px;
+      border-top: 1px solid #333;
+      padding-top: 16px;
+      color: #888;
+      text-align: center;
+      font-size: 12px;
     }
   </style>
 </head>
 <body>
-  <div class="blob b1" aria-hidden="true"></div>
-  <div class="blob b2" aria-hidden="true"></div>
-  <div class="blob b3" aria-hidden="true"></div>
+
+  <div class="topbar">
+    <div class="container">
+      <div class="editions">
+        <a href="#">Nacional</a>
+        <a href="#" class="active">Sinaloa</a>
+      </div>
+      <div class="date">Domingo 19 de abril de 2026 · Culiacán, Sinaloa</div>
+    </div>
+  </div>
+
+  <header class="masthead">
+    <div class="container row">
+      <div class="left">
+        <div class="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.8l-.3-.3a6.5 6.5 0 1 0-.7.7l.3.3v.8l5 5 1.5-1.5-5-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/></svg>
+          <input type="text" placeholder="Buscar noticias..." />
+        </div>
+      </div>
+      <div class="logo">
+        <div class="mark">El Melache</div>
+        <div class="sub">by Lugardo</div>
+      </div>
+      <div class="right">
+        <a href="#" class="btn">Iniciar sesión</a>
+        <a href="#" class="btn primary">Suscríbete</a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="primary" aria-label="Secciones">
+    <div class="container">
+      <ul>
+        <li class="active"><a href="#">Sinaloa</a></li>
+        <li><a href="#">Culiacán</a></li>
+        <li><a href="#">Mazatlán</a></li>
+        <li><a href="#">Los Mochis</a></li>
+        <li><a href="#">Guasave</a></li>
+        <li><a href="#">Guamúchil</a></li>
+        <li><a href="#">Policiaca</a></li>
+        <li><a href="#">Opinión</a></li>
+        <li><a href="#">Deportes</a></li>
+        <li><a href="#">Economía</a></li>
+        <li><a href="#">Tecnología</a></li>
+        <li><a href="#">Tendencias</a></li>
+        <li><a href="#">Salud</a></li>
+        <li><a href="#">Viral</a></li>
+      </ul>
+    </div>
+  </nav>
 
   <main>
-    <svg class="gear" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs>
-        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#ecfccb"/>
-          <stop offset="100%" stop-color="#22c55e"/>
-        </linearGradient>
-      </defs>
-      <path fill="url(#g)" d="M50 8l5.5 8.4a34 34 0 0 1 8.3 2.2l9.5-3.3 5.4 9.3-6.9 7a34 34 0 0 1 3.1 7.9l9.8 2.5v10.8l-9.8 2.5a34 34 0 0 1-3.1 7.9l6.9 7-5.4 9.3-9.5-3.3a34 34 0 0 1-8.3 2.2L50 92l-5.5-8.4a34 34 0 0 1-8.3-2.2l-9.5 3.3-5.4-9.3 6.9-7a34 34 0 0 1-3.1-7.9L15.3 58V47.2l9.8-2.5a34 34 0 0 1 3.1-7.9l-6.9-7 5.4-9.3 9.5 3.3a34 34 0 0 1 8.3-2.2L50 8z"/>
-      <circle cx="50" cy="52.6" r="13" fill="#052e1c"/>
-    </svg>
+    <div class="container">
+      <section class="grid">
+        <!-- Featured -->
+        <article class="featured">
+          <div class="media">
+            <img src="portada.jpg" alt="Rubén Rocha: Todo está bien, tranquilo en Culiacán"
+                 onerror="this.remove(); document.querySelector('.featured .media').classList.add('fallback');" />
+            <div class="overlay">
+              <span class="tag">Última hora</span>
+              <h1>Rubén Rocha: "Todo está bien, tranquilo en Culiacán"</h1>
+              <div class="byline">Por Redacción El Melache · hace 12 min · Culiacán</div>
+            </div>
+          </div>
+        </article>
 
-    <h1>En mantenimiento</h1>
-    <p class="subtitle">
-      Estamos trabajando para volver pronto<span class="dots"><span>.</span><span>.</span><span>.</span></span>
-    </p>
-    <span class="badge">Gracias por tu paciencia</span>
+        <!-- Side list -->
+        <aside>
+          <div class="side-title">Lo más visto</div>
+          <ul class="side-list">
+            <li>
+              <div class="thumb" style="background: linear-gradient(135deg,#1e3a8a,#3b82f6);"></div>
+              <div>
+                <h3><a href="#">Reportan balaceras en varias colonias de Culiacán durante la madrugada</a></h3>
+                <div class="meta">Policiaca · hace 35 min</div>
+              </div>
+            </li>
+            <li>
+              <div class="thumb" style="background: linear-gradient(135deg,#065f46,#10b981);"></div>
+              <div>
+                <h3><a href="#">Mazatlán cierra temporada con récord histórico de turistas</a></h3>
+                <div class="meta">Mazatlán · hace 1 hr</div>
+              </div>
+            </li>
+            <li>
+              <div class="thumb" style="background: linear-gradient(135deg,#7c2d12,#f97316);"></div>
+              <div>
+                <h3><a href="#">Productores de Guasave advierten pérdidas millonarias por sequía</a></h3>
+                <div class="meta">Guasave · hace 2 hr</div>
+              </div>
+            </li>
+            <li>
+              <div class="thumb" style="background: linear-gradient(135deg,#4c1d95,#8b5cf6);"></div>
+              <div>
+                <h3><a href="#">Los Mochis: alcaldesa anuncia nuevo paquete de obras para el centro</a></h3>
+                <div class="meta">Los Mochis · hace 3 hr</div>
+              </div>
+            </li>
+            <li>
+              <div class="thumb" style="background: linear-gradient(135deg,#831843,#ec4899);"></div>
+              <div>
+                <h3><a href="#">Cae banda dedicada al robo de vehículos en Guamúchil</a></h3>
+                <div class="meta">Policiaca · hace 4 hr</div>
+              </div>
+            </li>
+          </ul>
+        </aside>
+      </section>
+
+      <div class="ad">Publicidad</div>
+
+      <!-- Sinaloa section -->
+      <div class="section-title">
+        <h2>Sinaloa</h2>
+        <a href="#">Ver más →</a>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <div class="thumb" style="background: linear-gradient(135deg,#0f172a,#334155);"></div>
+          <div class="cat">Culiacán</div>
+          <h3><a href="#">Gobierno estatal refuerza operativos en la zona serrana</a></h3>
+          <div class="meta">hace 20 min</div>
+        </article>
+        <article class="card">
+          <div class="thumb" style="background: linear-gradient(135deg,#0c4a6e,#0ea5e9);"></div>
+          <div class="cat">Mazatlán</div>
+          <h3><a href="#">Cruceros retoman actividad en el puerto tras semanas de pausa</a></h3>
+          <div class="meta">hace 45 min</div>
+        </article>
+        <article class="card">
+          <div class="thumb" style="background: linear-gradient(135deg,#1f2937,#9ca3af);"></div>
+          <div class="cat">Los Mochis</div>
+          <h3><a href="#">Empresarios piden mayor seguridad en el parque industrial</a></h3>
+          <div class="meta">hace 1 hr</div>
+        </article>
+        <article class="card">
+          <div class="thumb" style="background: linear-gradient(135deg,#14532d,#84cc16);"></div>
+          <div class="cat">Guasave</div>
+          <h3><a href="#">Ganaderos locales exigen apoyos ante alza de insumos</a></h3>
+          <div class="meta">hace 2 hr</div>
+        </article>
+      </div>
+
+      <!-- Policiaca section -->
+      <div class="section-title">
+        <h2>Policiaca</h2>
+        <a href="#">Ver más →</a>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <div class="thumb" style="background: linear-gradient(135deg,#450a0a,#dc2626);"></div>
+          <div class="cat">Culiacán</div>
+          <h3><a href="#">Movilización policial sobre el bulevar Pedro Infante deja dos detenidos</a></h3>
+          <div class="meta">hace 18 min</div>
+        </article>
+        <article class="card">
+          <div class="thumb" style="background: linear-gradient(135deg,#1e1b4b,#6366f1);"></div>
+          <div class="cat">Mazatlán</div>
+          <h3><a href="#">Hallan vehículo abandonado con reporte de robo en el malecón</a></h3>
+          <div class="meta">hace 55 min</div>
+        </article>
+        <article class="card">
+          <div class="thumb" style="background: linear-gradient(135deg,#052e16,#22c55e);"></div>
+          <div class="cat">Guamúchil</div>
+          <h3><a href="#">Aseguran cargamento de combustible ilegal en la carretera federal</a></h3>
+          <div class="meta">hace 1 hr</div>
+        </article>
+        <article class="card">
+          <div class="thumb" style="background: linear-gradient(135deg,#3f0a0a,#f87171);"></div>
+          <div class="cat">Sinaloa</div>
+          <h3><a href="#">FGE abre investigación por desaparición reportada en Navolato</a></h3>
+          <div class="meta">hace 2 hr</div>
+        </article>
+      </div>
+
+      <!-- Opinion strip -->
+      <div class="section-title">
+        <h2>Opinión</h2>
+        <a href="#">Ver más →</a>
+      </div>
+      <div class="opinion">
+        <div class="col">
+          <div class="author">Columna · Lugardo</div>
+          <h4><a href="#">La tranquilidad que nadie siente</a></h4>
+          <p>Entre discursos oficiales y la realidad de las calles, Culiacán vive una paradoja diaria.</p>
+        </div>
+        <div class="col">
+          <div class="author">Análisis · Redacción</div>
+          <h4><a href="#">Sinaloa ante un nuevo ciclo político</a></h4>
+          <p>Los próximos meses definirán el rumbo del estado y el pulso con la federación.</p>
+        </div>
+        <div class="col">
+          <div class="author">Editorial</div>
+          <h4><a href="#">El costo de normalizar la violencia</a></h4>
+          <p>Llamar "tranquilidad" a lo que no lo es tiene consecuencias para toda una generación.</p>
+        </div>
+      </div>
+
+      <div class="ad">Publicidad</div>
+
+      <!-- Deportes / Tendencias -->
+      <div class="section-title">
+        <h2>Tendencias</h2>
+        <a href="#">Ver más →</a>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <div class="thumb" style="background: linear-gradient(135deg,#422006,#f59e0b);"></div>
+          <div class="cat">Deportes</div>
+          <h3><a href="#">Venados vence a Tomateros en juego de pretemporada</a></h3>
+          <div class="meta">hace 30 min</div>
+        </article>
+        <article class="card">
+          <div class="thumb" style="background: linear-gradient(135deg,#0f172a,#38bdf8);"></div>
+          <div class="cat">Tecnología</div>
+          <h3><a href="#">Startups sinaloenses participan en cumbre regional de IA</a></h3>
+          <div class="meta">hace 1 hr</div>
+        </article>
+        <article class="card">
+          <div class="thumb" style="background: linear-gradient(135deg,#431407,#fb923c);"></div>
+          <div class="cat">Viral</div>
+          <h3><a href="#">El video del "Melache" que conquista las redes este fin de semana</a></h3>
+          <div class="meta">hace 2 hr</div>
+        </article>
+        <article class="card">
+          <div class="thumb" style="background: linear-gradient(135deg,#064e3b,#34d399);"></div>
+          <div class="cat">Salud</div>
+          <h3><a href="#">Alertan por aumento de casos de dengue en el norte del estado</a></h3>
+          <div class="meta">hace 3 hr</div>
+        </article>
+      </div>
+    </div>
   </main>
+
+  <footer>
+    <div class="container foot-grid">
+      <div>
+        <h5>El Melache</h5>
+        <p style="max-width: 320px; line-height: 1.5;">
+          El Melache (by Lugardo) — Noticias, análisis y crónica de Sinaloa. Culiacán, Mazatlán, Los Mochis, Guasave y Guamúchil.
+        </p>
+      </div>
+      <div>
+        <h5>Secciones</h5>
+        <ul>
+          <li><a href="#">Culiacán</a></li>
+          <li><a href="#">Mazatlán</a></li>
+          <li><a href="#">Los Mochis</a></li>
+          <li><a href="#">Policiaca</a></li>
+          <li><a href="#">Opinión</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Más</h5>
+        <ul>
+          <li><a href="#">Deportes</a></li>
+          <li><a href="#">Economía</a></li>
+          <li><a href="#">Tecnología</a></li>
+          <li><a href="#">Tendencias</a></li>
+          <li><a href="#">Salud</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Institucional</h5>
+        <ul>
+          <li><a href="#">Quiénes somos</a></li>
+          <li><a href="#">Contacto</a></li>
+          <li><a href="#">Aviso de privacidad</a></li>
+          <li><a href="#">Términos</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container copy">
+      © 2026 El Melache (by Lugardo). Todos los derechos reservados.
+    </div>
+  </footer>
+
 </body>
 </html>
